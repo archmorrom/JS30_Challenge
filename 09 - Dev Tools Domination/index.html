@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+
+    // Regular
+    console.log('hello world');
+
+    // Interpolated
+    console.log('hello %s', 'world');
+    console.log('hello %f', 3.45);
+    console.log('hello %d', 3.45);
+
+    // ES6
+    let s = "world";
+    console.log(`hello ${s}`);
+
+    // Styled
+    console.log('%c hello world', 'font-size:50px; background:red; text-shadow: 10px 10px 0 blue');
+
+    // warning!
+    console.warn('hello world');
+
+    // Error :|
+    console.error('hello world');
+
+    // Info
+    console.info('hello world');
+
+    // Testing(通常用在測試時，遇到錯誤時回傳特定訊息)
+    let p = document.querySelector('p');
+    console.assert(p.classList.contains('ouch'), 'That is wrong!')
+
+    // clearing
+    // console.clear();
+
+    // Viewing DOM Elements
+    console.log(p);
+    console.dir(p); // 顯示出整個物件的可用屬性及方法
+
+    // Grouping together(把資訊group起來呈現)
+    dogs.forEach(dog => {
+      console.groupCollapsed(`${dog.name}`);
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.groupEnd(`${dog.name}`);
+    });
+
+    // counting(少用)
+    console.count('Wes');
+    console.count('Wes');
+    console.count('Steve');
+    console.count('Steve');
+    console.count('Wes');
+    console.count('Steve');
+    console.count('Wes');
+    console.count('Steve');
+    console.count('Steve');
+    console.count('Steve');
+    console.count('Steve');
+    console.count('Steve');
+
+    // timing
+    // console.time() // 啓動一個新計時器
+    // console.timeEnd() // 停止計時器，觸發時記錄標籤和經過的時間
+    console.time('fetching data');
+    fetch('https://api.github.com/users/wesbos')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data');
+        console.log(data);
+      });
+
+    // table
+    let t = [{ no: 1, color: 'red' }, { no: 2, color: 'green' }]
+    console.table(t)
+  </script>
+</body>
+
+</html>
