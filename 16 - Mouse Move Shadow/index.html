@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+    html {
+      color: black;
+      font-family: sans-serif;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+    }
+
+    h1 {
+      text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+      font-size: 100px;
+    }
+  </style>
+
+  <script>
+    const hero = document.querySelector('.hero');
+    const text = hero.querySelector('h1');
+    const moveLength = 500; // 500px
+
+    function shadow(e) {
+      // 寫法一
+      // let offsetX = e.offsetX;
+      // let offsetY = e.offsetY;
+      // 寫法二    
+      let { offsetX, offsetY } = e;
+      // 寫法三
+      // let { offsetX: x, offsetY: y } = e;
+
+      if (this != e.target) {
+        offsetX += e.target.offsetLeft;
+        offsetY += e.target.offsetTop;
+      }
+      console.log(offsetX, offsetY);
+
+      // offsetX / this.offsetWidth * moveLength => 用百分比的方式計算移動座標位置
+      // - (moveLength / 2) => 處理當滑鼠移至畫面左上或左下時offsetX及offsetY為0，offsetX / this.offsetWidth * moveLength = 0，導致無陰影效果的問題
+      const moveLengthX = Math.round((offsetX / this.offsetWidth * moveLength) - (moveLength / 2));
+      const moveLengthY = Math.round((offsetY / this.offsetHeight * moveLength) - (moveLength / 2));
+
+      // pink: ${moveLengthX}px ${moveLengthY}px 0 rgba(255,0,255,0.7),
+      // light blue: ${moveLengthX * -1}px ${moveLengthY}px 0 rgba(0,255,255,0.7),
+      // light green: ${moveLengthY}px ${moveLengthX * -1}px 0 rgba(0,255,0,0.7),
+      // blue: ${moveLengthY * -1}px ${moveLengthX}px 0 rgba(0,0,255,0.7)
+      text.style.textShadow = `
+      ${moveLengthX}px ${moveLengthY}px 0 rgba(255,0,255,0.7),
+      ${moveLengthX * -1}px ${moveLengthY}px 0 rgba(0,255,255,0.7),
+      ${moveLengthY}px ${moveLengthX * -1}px 0 rgba(0,255,0,0.7),
+      ${moveLengthY * -1}px ${moveLengthX}px 0 rgba(0,0,255,0.7)
+    `;
+    }
+
+    hero.addEventListener('mousemove', shadow);
+  </script>
+</body>
+
+</html>
